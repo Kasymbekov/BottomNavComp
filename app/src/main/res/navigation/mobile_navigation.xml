@@ -34,4 +34,9 @@
         android:name="com.bottomnavcomp.ProfileFragment"
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/boardFragment"
+        android:name="com.bottomnavcomp.BoardFragment"
+        android:label="fragment_board"
+        tools:layout="@layout/fragment_board" />
 </navigation>

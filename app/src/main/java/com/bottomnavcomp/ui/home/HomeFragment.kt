@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bottomnavcomp.R
 import com.bottomnavcomp.databinding.FragmentHomeBinding
+import com.bottomnavcomp.models.News
 
 class HomeFragment : Fragment() {
 
@@ -18,6 +19,12 @@ class HomeFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    private lateinit var  adapter: NewsAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        adapter = NewsAdapter()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,8 +46,13 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.newsFragment)
         }
         parentFragmentManager.setFragmentResultListener("k_news", viewLifecycleOwner) { requestKey, bundle ->
-            val text = bundle.getString("text")
-            Log.e("Home", "text: $text")
+            val news = bundle.getSerializable("news") as News
+
+            adapter.addItem(news)
+            Log.e("Home", "text: $news")
+            Log.e("Home", "text: ${news.title}")
         }
+
+        binding.recyclerview.adapter = adapter
     }
 }

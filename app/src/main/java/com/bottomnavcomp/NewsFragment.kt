@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.bottomnavcomp.databinding.FragmentNewsBinding
+import com.bottomnavcomp.models.News
 
 class NewsFragment : Fragment() {
 
@@ -15,7 +16,7 @@ class NewsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentNewsBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -29,8 +30,10 @@ class NewsFragment : Fragment() {
 
     private fun save() {
         val text = binding.editText.text.toString()
+
+        val news = News(text, System.currentTimeMillis())
         val bundle = Bundle()
-        bundle.putString("text", text)
+        bundle.putSerializable("news", news)
         parentFragmentManager.setFragmentResult("k_news", bundle)
         findNavController().navigateUp()
     }
