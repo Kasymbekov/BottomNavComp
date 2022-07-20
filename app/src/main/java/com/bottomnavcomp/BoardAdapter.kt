@@ -14,7 +14,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 
 
-class BoardAdapter : RecyclerView.Adapter<BoardAdapter.ViewHolder>() {
+class BoardAdapter(private val onClickStart: () -> Unit) :
+    RecyclerView.Adapter<BoardAdapter.ViewHolder>() {
 
     private val pages = arrayOf(
         IntroPage("Welcome", "to our page.", R.drawable.img1),
@@ -33,6 +34,10 @@ class BoardAdapter : RecyclerView.Adapter<BoardAdapter.ViewHolder>() {
                 binding.btnStart.visibility = View.VISIBLE
             else
                 binding.btnStart.visibility = View.INVISIBLE
+
+            binding.btnStart.setOnClickListener {
+                onClickStart.invoke()
+            }
         }
 
         //need to fix
