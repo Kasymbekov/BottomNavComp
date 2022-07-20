@@ -3,6 +3,7 @@ package com.bottomnavcomp
 import android.R
 import android.R.attr.data
 import android.app.Activity.RESULT_OK
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -35,17 +36,19 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (Prefs(requireContext()).checkImage("image_data")) {
+        if (!Prefs(requireContext()).checkImage("image_data")) {
             var image = Uri.parse(Prefs(requireContext()).getString("image_data"))
             binding.imageView.setImageURI(image)
+            Log.e("ERROR", Prefs(requireContext())?.getString("image_data").toString())
         }
 
-        Log.e("ERROR", Prefs(requireContext())?.getString("image_data").toString())
+
 //        binding.imageView2.setImageURI(Uri.parse(Prefs(requireContext())?.getString("image_data")))
 
 
         binding.imageView.setOnClickListener {
             pickImageGallery()
+
         }
     }
 
@@ -60,10 +63,8 @@ class ProfileFragment : Fragment() {
             if (result.resultCode == RESULT_OK) {
 
                 val data: Intent? = result.data
-                binding.imageView.setImageURI(data?.data)
-//                val preferences = Prefs(requireContext())
                 Prefs(requireContext()).setString("image_data", data?.data.toString())
-//
+
                 var image = Uri.parse(Prefs(requireContext()).getString("image_data"))
                 Log.e("ERROR", image.toString())
                 binding.imageView.setImageURI(image)
