@@ -1,15 +1,19 @@
 package com.bottomnavcomp.ui.home
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.bottomnavcomp.App
 import com.bottomnavcomp.R
 import com.bottomnavcomp.databinding.FragmentHomeBinding
 import com.bottomnavcomp.models.News
@@ -34,6 +38,8 @@ class HomeFragment : Fragment() {
             //AlertDialog implementation
             openDialog(it)
         }
+        val list = App.database.newsDao().getAll()
+        adapter.addItems(list)
     }
 
     override fun onCreateView(
@@ -67,6 +73,34 @@ class HomeFragment : Fragment() {
         }
 
         binding.recyclerview.adapter = adapter
+
+        //EditText listener
+        binding.editText.addTextChangedListener(object : TextWatcher {
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                val list = App.database.newsDao().getAll()
+
+                if (binding.editText.text.isEmpty()) {
+                    adapter.clearList()
+                    adapter.addItems(list)
+                } else {
+                    adapter.clearList()
+                    for (n in list) {
+                        if (n.title.contains(binding.editText.text)) {
+                            adapter.addItem(n)
+                        }
+                    }
+                }
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                adapter.notifyDataSetChanged()
+            }
+        })
     }
 
     private fun openDialog(pos: Int) {

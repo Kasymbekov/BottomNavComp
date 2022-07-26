@@ -1,9 +1,15 @@
 package com.bottomnavcomp
 
-import android.content.Intent
+import android.Manifest
+import android.app.AlertDialog
+import android.content.DialogInterface
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -38,8 +44,8 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        if(!Prefs(this).isShown())
-        navController.navigate(R.id.boardFragment)
+        if (!Prefs(this).isShown())
+            navController.navigate(R.id.boardFragment)
 
         navController.addOnDestinationChangedListener { controller, destination, argumetns ->
             val list = arrayListOf(
@@ -58,6 +64,65 @@ class MainActivity : AppCompatActivity() {
                 supportActionBar?.hide()
             } else {
                 supportActionBar?.show()
+            }
+        }
+
+        //Method to check if app has permission to read data
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            Toast.makeText(
+                this, "You have already granted this permission!",
+                Toast.LENGTH_SHORT
+            ).show()
+        } else {
+            requestStoragePermission();
+        }
+    }
+
+    //Show alertdialog to get permission
+    private fun requestStoragePermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+        ) {
+            AlertDialog.Builder(this)
+                .setTitle("Permission needed")
+                .setMessage("This permission is needed to upload your profile photo")
+                .setPositiveButton("ok",
+                    DialogInterface.OnClickListener { dialog, which ->
+                        ActivityCompat.requestPermissions(
+                            this@MainActivity, arrayOf(
+                                Manifest.permission.READ_EXTERNAL_STORAGE
+                            ), 1
+                        )
+                    })
+                .setNegativeButton("cancel",
+                    DialogInterface.OnClickListener { dialog, which -> dialog.dismiss() })
+                .create().show()
+        } else {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                1
+            )
+        }
+    }
+
+    //Magic method
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String?>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == 1) {
+            if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Permission GRANTED", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Permission DENIED", Toast.LENGTH_SHORT).show()
             }
         }
     }

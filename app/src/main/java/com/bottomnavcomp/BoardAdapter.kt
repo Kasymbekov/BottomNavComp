@@ -1,5 +1,6 @@
 package com.bottomnavcomp
 
+import android.animation.ValueAnimator
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
@@ -18,9 +19,9 @@ class BoardAdapter(private val onClickStart: () -> Unit) :
     RecyclerView.Adapter<BoardAdapter.ViewHolder>() {
 
     private val pages = arrayOf(
-        IntroPage("Welcome", "to our page.", R.drawable.img1),
-        IntroPage("Салам", "биздин баракчага кош келиңиз.", R.drawable.img),
-        IntroPage("Добро пожаловать", "на нашу страницу.", R.drawable.img2)
+        IntroPage("Welcome", "to our page.", R.raw.hello),
+        IntroPage("Салам", "биздин баракчага кош келиңиз.", R.raw.welcome),
+        IntroPage("Добро пожаловать", "на нашу страницу.", R.raw.robot)
     )
 
     inner class ViewHolder(private var binding: PagerBoardBinding) :
@@ -28,7 +29,20 @@ class BoardAdapter(private val onClickStart: () -> Unit) :
         fun bind(position: Int) {
             binding.textTitle.text = pages[position].title
             binding.textDesc.text = pages[position].desc
-            binding.imageView.setImageResource(pages[position].img)
+            binding.animationView.setAnimation(pages[position].img)
+//          binding.imageView.setImageResource(pages[position].img)
+
+
+            // Custom animation speed or duration.
+            val animator = ValueAnimator.ofFloat(0f, 1f)
+            animator
+                .addUpdateListener { animation: ValueAnimator ->
+                    binding.animationView
+                        .setProgress(
+                            animation.animatedValue as Float
+                        )
+                }
+            animator.start()
 
             if (position == pages.size - 1)
                 binding.btnStart.visibility = View.VISIBLE

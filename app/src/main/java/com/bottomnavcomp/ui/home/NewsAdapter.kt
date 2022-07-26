@@ -59,6 +59,11 @@ class NewsAdapter(private val onClick: (position: Int) -> Unit) :
         notifyItemInserted(0)
     }
 
+    fun addItems(list: List<News>) {
+        this.list.addAll(list)
+        notifyDataSetChanged()
+    }
+
     fun getItem(pos: Int): News {
         return list[pos]
     }
@@ -67,6 +72,10 @@ class NewsAdapter(private val onClick: (position: Int) -> Unit) :
         list.removeAt(pos)
 
         notifyItemRemoved(pos)
+    }
+
+    fun clearList(){
+        this.list.clear()
     }
 
 }

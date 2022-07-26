@@ -20,7 +20,7 @@ class Prefs(context: Context) {
     }
 
     fun getString(key: String?): String? {
-        return preferences.getString(key, "empty")
+        return preferences.getString(key, "")
     }
 
     //Method to check if it exists or not
