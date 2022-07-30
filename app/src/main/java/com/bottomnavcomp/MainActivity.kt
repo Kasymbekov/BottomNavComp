@@ -16,6 +16,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.bottomnavcomp.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 
 
 class MainActivity : AppCompatActivity() {
@@ -80,6 +81,10 @@ class MainActivity : AppCompatActivity() {
         } else {
             requestStoragePermission();
         }
+
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            navController.navigate(R.id.loginFragment)
+        }
     }
 
     //Show alertdialog to get permission
@@ -95,7 +100,7 @@ class MainActivity : AppCompatActivity() {
                 .setPositiveButton("ok",
                     DialogInterface.OnClickListener { dialog, which ->
                         ActivityCompat.requestPermissions(
-                            this@MainActivity, arrayOf(
+                            this, arrayOf(
                                 Manifest.permission.READ_EXTERNAL_STORAGE
                             ), 1
                         )
@@ -119,7 +124,7 @@ class MainActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         if (requestCode == 1) {
-            if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "Permission GRANTED", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(this, "Permission DENIED", Toast.LENGTH_SHORT).show()

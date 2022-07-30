@@ -67,7 +67,7 @@ class HomeFragment : Fragment() {
         ) { requestKey, bundle ->
             val news = bundle.getSerializable("news") as News
 
-            adapter.addItem(news)
+            //adapter.addItem(news)
             Log.e("Home", "text: $news")
             Log.e("Home", "text: ${news.title}")
         }

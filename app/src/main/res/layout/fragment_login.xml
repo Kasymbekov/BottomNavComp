@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="32dp"
+    tools:context=".ui.auth.LoginFragment">
+
+    <TextView
+        android:id="@+id/counter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="124dp"
+        android:layout_marginBottom="84dp"
+        android:text="00:00"
+        android:textColor="@color/teal_700"
+        android:textSize="28sp"
+        android:visibility="invisible" />
+
+    <EditText
+        android:id="@+id/editPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="0553524822"
+        android:inputType="phone" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnRequest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Continue" />
+
+    <EditText
+        android:id="@+id/editCode"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:inputType="phone"
+        android:maxLength="6"
+        android:gravity="center"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/verifyCodeBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="verify"
+        android:visibility="gone" />
+
+
+</LinearLayout>
