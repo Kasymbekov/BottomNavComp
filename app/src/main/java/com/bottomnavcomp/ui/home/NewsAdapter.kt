@@ -1,12 +1,19 @@
 package com.bottomnavcomp.ui.home
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bottomnavcomp.App
+import com.bottomnavcomp.BoardAdapter
 import com.bottomnavcomp.databinding.ItemNewsBinding
 import com.bottomnavcomp.models.News
+import com.bottomnavcomp.printErrorLog
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class NewsAdapter(private val onClick: (position: Int) -> Unit) :
     RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
@@ -55,7 +62,7 @@ class NewsAdapter(private val onClick: (position: Int) -> Unit) :
     fun addItem(news: News) {
         list.add(0, news)
 
-        //gives some inserting animation
+        //gives some insert animation
         notifyItemInserted(0)
     }
 
@@ -69,13 +76,23 @@ class NewsAdapter(private val onClick: (position: Int) -> Unit) :
     }
 
     fun deleteItem(pos: Int) {
-        list.removeAt(pos)
+        //delete News from Room
+        App.database.newsDao().delete(list[pos])
 
+        //remove News from adapter list
+        list.removeAt(pos)
         notifyItemRemoved(pos)
     }
 
-    fun clearList(){
+    fun clearList() {
         this.list.clear()
     }
 
+    fun checkList(): Boolean {
+        return list.isEmpty()
+    }
+
+    fun getList(): ArrayList<News> {
+        return this.list
+    }
 }

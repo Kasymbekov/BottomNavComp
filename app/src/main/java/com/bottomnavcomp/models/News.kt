@@ -1,6 +1,7 @@
 package com.bottomnavcomp.models
 
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import java.io.Serializable
 
@@ -10,4 +11,7 @@ data class News(
     val id: Int,
     val title: String,
     val createdAt: Long
-) : Serializable
+) : Serializable {
+    @Ignore
+    constructor() : this(0, "", 0)
+}

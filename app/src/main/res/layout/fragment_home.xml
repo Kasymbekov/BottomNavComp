@@ -12,12 +12,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:hint="Enter a text..."
+        android:background="@drawable/custom_input"
         android:layout_width="240dp"
         android:padding="16dp"
+        android:layout_marginTop="12dp"
         android:layout_height="wrap_content"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
+        android:layout_marginTop="18dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/editText"

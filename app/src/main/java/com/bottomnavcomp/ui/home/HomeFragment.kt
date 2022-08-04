@@ -17,6 +17,7 @@ import com.bottomnavcomp.App
 import com.bottomnavcomp.R
 import com.bottomnavcomp.databinding.FragmentHomeBinding
 import com.bottomnavcomp.models.News
+import com.bottomnavcomp.printErrorLog
 
 class HomeFragment : Fragment() {
 
@@ -30,7 +31,6 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //Listener for item in recyclerview
         adapter = NewsAdapter() {
 
         }
@@ -64,7 +64,7 @@ class HomeFragment : Fragment() {
         parentFragmentManager.setFragmentResultListener(
             "k_news",
             viewLifecycleOwner
-        ) { requestKey, bundle ->
+        ) { _, bundle ->
             val news = bundle.getSerializable("news") as News
 
             //adapter.addItem(news)
@@ -110,7 +110,7 @@ class HomeFragment : Fragment() {
         //method below is designed so that the user can't close dialog anywhere on the screen
         alert.setCancelable(false)
         alert.setMessage("Are you sure you want to delete this item?")
-        alert.setPositiveButton("Yes") { dialog, which ->
+        alert.setPositiveButton("Yes") { _, _ ->
             Toast.makeText(
                 requireContext(),
                 adapter.getItem(pos).title + " item is deleted",
@@ -118,7 +118,7 @@ class HomeFragment : Fragment() {
             ).show()
             adapter.deleteItem(pos)
         }
-        alert.setNegativeButton("No") { dialog, which ->
+        alert.setNegativeButton("No") { _, _ ->
             Toast.makeText(requireContext(), "Operation canceled", Toast.LENGTH_SHORT).show()
         }
         alert.create()

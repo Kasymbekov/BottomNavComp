@@ -30,8 +30,6 @@ class BoardAdapter(private val onClickStart: () -> Unit) :
             binding.textTitle.text = pages[position].title
             binding.textDesc.text = pages[position].desc
             binding.animationView.setAnimation(pages[position].img)
-//          binding.imageView.setImageResource(pages[position].img)
-
 
             // Custom animation speed or duration.
             val animator = ValueAnimator.ofFloat(0f, 1f)
@@ -53,15 +51,6 @@ class BoardAdapter(private val onClickStart: () -> Unit) :
                 onClickStart.invoke()
             }
         }
-
-        //need to fix
-//        @BindingAdapter("profileImage")
-//        fun loadImage(view: ImageView, imageUrl: String?) {
-//            Glide.with(binding.root)
-//                .load(imageUrl).apply(RequestOptions().circleCrop())
-//                .into(view)
-//        }
-        //-----------------------------
 
     }
 

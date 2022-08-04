@@ -27,18 +27,6 @@ class BoardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        // Custom animation speed or duration.
-//        val animator = ValueAnimator.ofFloat(0f, 1f)
-//        animator
-//            .addUpdateListener { animation: ValueAnimator ->
-//                binding.animationView
-//                    .setProgress(
-//                        animation.animatedValue as Float
-//                    )
-//                binding.animationView.setAnimation(R.raw.hello)
-//            }
-//        animator.start()
-
         binding.viewPager.adapter = BoardAdapter {
             close()
         }
